@@ -1,9 +1,13 @@
 package com.ds.al.GreedyStarter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 import com.ds.al.GreedyEntity.HuffmanNode;
+import com.ds.al.GreedyEntity.TrainObj;
 import com.ds.al.GreedyOps.GreedyOps;
 import com.ds.al.GreedyOps.GreedyOpsImpl;
 import com.ds.al.GreedyUtil.HuffmanNodeComparator;
@@ -11,31 +15,33 @@ import com.ds.al.GreedyUtil.HuffmanNodeComparator;
 public class GreedyStarter {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		char[] charArray = { 'a', 'b', 'c', 'd', 'e', 'f' };
-		int[] charfreq = { 5, 9, 12, 13, 16, 45 };
-		HuffmanNodeComparator nodeCompar = new HuffmanNodeComparator();
-		PriorityQueue<HuffmanNode> nodeQueue = new PriorityQueue<HuffmanNode>(nodeCompar);
-		for (int i = 0; i < charArray.length; i++) {
-			HuffmanNode hn = new HuffmanNode();
-			hn.setData(charfreq[i]);
-			hn.sethuffmanChar(charArray[i]);
-			nodeQueue.add(hn);
-		}
+		int size;
 
-		HashMap<Integer,String> codeMap=new HashMap<>();
-		GreedyOps ops = new GreedyOpsImpl();
-		HuffmanNode createHuffmanTree = ops.createHuffmanTree(nodeQueue);
-		for (int i = 0; i < charArray.length; i++) {
-             int charInt=(int)charArray[i];
-             System.out.println(charInt);
-             if(!codeMap.containsKey(charInt))
-             {
-            	 codeMap.put(charInt,"null");
-             }
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter no of trains");
+		size = sc.nextInt();
+		ArrayList<TrainObj> trainLst = new ArrayList<TrainObj>();
+		String name;
+		double arrivingTime;
+		double departureTime;
+		for (int i = 0; i < size; i++) {
+			TrainObj train = new TrainObj();
+			System.out.println("Enter the Train Name");
+			name = sc.next();
+			train.setTrainName(name);
+			System.out.println("Enter the arrival time");
+			arrivingTime = sc.nextDouble();
+			train.setArrivalTime(arrivingTime);
+			System.out.println("Enter the departure time");
+			departureTime = sc.nextDouble();
+			train.setDepartureTime(departureTime);
+			trainLst.add(train);
+
 		}
-        String code="";
-		ops.printHuffmanCode(createHuffmanTree, codeMap, code, null);
+         GreedyOps ops=new GreedyOpsImpl();
+         System.out.println(ops.getPlatformNeeded(trainLst));
+		sc.close();
+
 	}
 
 }

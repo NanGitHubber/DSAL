@@ -1,9 +1,13 @@
 package com.ds.al.GreedyOps;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
 import com.ds.al.GreedyEntity.HuffmanNode;
+import com.ds.al.GreedyEntity.TrainObj;
+import com.ds.al.GreedyUtil.TrainArrTimeComp;
+import com.ds.al.GreedyUtil.TrainDepartureTime;
 
 public class GreedyOpsImpl implements GreedyOps {
 
@@ -55,6 +59,35 @@ public class GreedyOpsImpl implements GreedyOps {
 		printHuffmanCode(root.getLeft(), codeMap, code,true);
 		printHuffmanCode(root.getRight(), codeMap, code,false);
 
+	}
+
+	@Override
+	public int getPlatformNeeded(ArrayList<TrainObj> trainLst) {
+		// TODO Auto-generated method stub
+		int platCount=0;
+		PriorityQueue<TrainObj> arrivalTimeQueue=new PriorityQueue<TrainObj>(new TrainArrTimeComp());
+		PriorityQueue<TrainObj> departureTeamQueue=new PriorityQueue<TrainObj>(new TrainDepartureTime());
+		for(TrainObj tr:trainLst)
+		{
+		arrivalTimeQueue.add(tr);
+		departureTeamQueue.add(tr);
+		}
+		while(!arrivalTimeQueue.isEmpty()&&!departureTeamQueue.isEmpty())
+		{
+			TrainObj arr = arrivalTimeQueue.peek();
+		    TrainObj depar = departureTeamQueue.peek();
+		    if(arr.getArrivalTime() < depar.getDepartureTime())
+		      platCount++;
+		    else
+		    	departureTeamQueue.poll();
+		    
+		     arrivalTimeQueue.poll();
+		    
+		    
+		    
+		}
+		
+		return platCount;
 	}
 
 }
